@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+//testing 123
 public class MainActivity extends AppCompatActivity {
     View.OnClickListener listener;
     TextView tLeft, tRight;
