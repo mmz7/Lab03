@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Lab03</string>
+    <string name="display">%1$d</string>
+</resources>
