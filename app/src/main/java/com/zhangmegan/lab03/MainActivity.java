@@ -1,7 +1,7 @@
 package com.zhangmegan.lab03;
 
 import androidx.appcompat.app.AppCompatActivity;
-// this is megan
+
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
