@@ -12,7 +12,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
-
+// testing again
 //testing 123
 public class MainActivity extends AppCompatActivity {
     ConstraintLayout layout;
