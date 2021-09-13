@@ -1,6 +1,7 @@
 package com.zhangmegan.lab03;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -10,14 +11,18 @@ import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.google.android.material.snackbar.Snackbar;
+
 //testing 123
 public class MainActivity extends AppCompatActivity {
+    ConstraintLayout layout;
     View.OnClickListener listener;
+    View.OnLongClickListener longListener;
     TextView tLeft, tRight;
     Button bLeft, bRight;
     SeekBar seekBar;
-//    SharedPreferences sP;
-//    SharedPreferences.Editor editor;
+    SharedPreferences sP;
+    SharedPreferences.Editor editor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
                 TextView v = (TextView)(view);
                 int count = Integer.parseInt(v.getText().toString())+1;
                 v.setText(getString(R.string.display, count));
-
             }
         };
         tLeft.setOnClickListener(listener);
@@ -41,13 +45,14 @@ public class MainActivity extends AppCompatActivity {
         bLeft.setOnClickListener(listener);
         bRight.setOnClickListener(listener);
 
-//        sP = getSharedPreferences("preferences", MODE_PRIVATE);
-//        editor = sP.edit();
+        sP = getSharedPreferences("preferences", MODE_PRIVATE);
+        editor = sP.edit();
 
-        tLeft.setText("0");
-        tRight.setText("0");
-        bLeft.setText("0");
+//        tLeft.setText("0");
+//        tRight.setText("0");
+//        bLeft.setText("0");
 
+        layout = findViewById(R.id.layout);
         seekBar = findViewById(R.id.seekbar);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -65,17 +70,29 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
+                Snackbar snack = Snackbar.make(layout, "Font size changed to "+seekBar.getProgress(), Snackbar.LENGTH_SHORT);
+                snack.show();
             }
         });
+
+        longListener = new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                editor.clear();
+                editor.apply();
+                tLeft.setText("0");
+                tRight.setText("0");
+                bLeft.setText("0");
+                bRight.setText("0");
+                return true;
+            }
+        };
+        layout.setOnLongClickListener(longListener);
     }
 
 
     protected void onPause() {
         super.onPause();
-
-        SharedPreferences sP = getSharedPreferences("preferences", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sP.edit();
 
         editor.putString("topL", tLeft.getText().toString());
         editor.putString("topR", tRight.getText().toString());
@@ -87,8 +104,6 @@ public class MainActivity extends AppCompatActivity {
 
     protected void onResume() {
         super.onResume();
-
-        SharedPreferences sP = getSharedPreferences("preferences", MODE_PRIVATE);
 
         tLeft.setText(sP.getString("topL", "0"));
         tRight.setText(sP.getString("topR", "0"));
